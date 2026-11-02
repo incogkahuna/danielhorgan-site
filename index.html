@@ -138,10 +138,11 @@ section.block { padding-block: clamp(96px, 16vh, 180px); }
 .rv.in { opacity: 1; transform: none; }
 .no-js .rv { opacity: 1; transform: none; }
 @media (max-width: 760px) {
-  .hero { display: block; height: auto; min-height: 100svh; }
-  .hero .still { inset: 0 0 auto; height: 58svh; background: #000 url("img/hero-reel-m.webp") 62% 50% / cover no-repeat; transform: none; animation: none; }
-  .hero::after { background: linear-gradient(180deg, rgba(0,0,0,.75) 0%, rgba(0,0,0,.25) 12%, rgba(0,0,0,0) 22%, rgba(0,0,0,0) 40%, #000 58svh, #000 100%); }
-  .hero .wrap { position: absolute; left: 0; right: 0; bottom: 0; text-shadow: none; }
+  .hero { display: flex; flex-direction: column; justify-content: center; height: auto; min-height: 100svh; padding-top: 64px; }
+  .hero .still { position: relative; inset: auto; width: 100%; height: auto; aspect-ratio: 1920 / 1008; background: #000 url("img/hero-reel-m.webp") center / cover no-repeat; transform: none; animation: none; flex: none; }
+  .hero .still::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0) 60%, rgba(0,0,0,.85) 100%); }
+  .hero::after { display: none; }
+  .hero .wrap { position: relative; margin-top: 28px; padding-bottom: 32px; text-shadow: none; }
   nav ul { gap: 18px; }
   .slate { grid-template-columns: repeat(2, minmax(0,1fr)); }
   .steps li { grid-template-columns: 1fr; gap: 10px; }
