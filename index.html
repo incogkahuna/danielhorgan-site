@@ -281,7 +281,7 @@ const SHOTS = [
     ['bus-f4', 'Haze', 'Resolve Cinematic Haze, depth-aware, tuned by hand.'],
     ['bus-f5', 'Final grade', 'Primary correction by hand: lift and gamma lowered for density, the same move used across the river sequence.']
   ]},
-  { name: 'Laptop screen replacement · Viral page', kicker: 'Python compositing · screen replacement', raw: 0,
+  { name: 'Laptop screen replacement', kicker: 'Python compositing · screen replacement', raw: 0,
     intro: 'Generated plate with placeholder analytics on the laptop; replaced with a generated watch page playing the film’s phone clip. Compositing scripted in Python/OpenCV.',
     steps: [
     ['scr1-0', 'Plate', 'Generated over-the-shoulder plate with placeholder analytics on the display.'],
@@ -289,15 +289,6 @@ const SHOTS = [
     ['scr1-2', 'Insert', 'Watch-page still generated in ChatGPT; the phone clip (Grok) is frame-matched into the player and the player controls are re-keyed over it.'],
     ['scr1-3', 'Pinned, unmatched', 'Insert warped to the quad and hard-composited, with no holdout, softness or grade. Reads as pasted on.', 1],
     ['scr1-4', 'Final', 'Forearm holdout, 0.55 px softness for LCD diffusion, gain ×0.80 with lifted blacks, cooler balance, 18% bloom off the bright UI, and grain.', 3]
-  ]},
-  { name: 'Laptop screen replacement · 13 views', kicker: 'Python compositing · screen replacement', raw: 0,
-    intro: 'Same camera and screen geometry as the viral page. The comp script was reused with new inputs: a failing-channel page and the river self-record clip.',
-    steps: [
-    ['scr2-0', 'Plate', 'Generated plate, same camera and display as the viral shot, with a red analytics dashboard.'],
-    ['scr2-1', 'Corner pin + holdout', 'Same four-point pin and forearm holdout, reused from the first shot.'],
-    ['scr2-2', 'Insert', 'Failing-channel watch page (an in-place edit of the viral page) with the river self-record clip frame-matched into the player.'],
-    ['scr2-3', 'Pinned, unmatched', 'Hard warp with no holdout, softness or grade.', 1],
-    ['scr2-4', 'Final', 'Same matching as the first shot (holdout, softness, gain, balance, bloom, grain), plus a primary balance adjustment in Resolve.', 3]
   ]},
   { name: 'News anchor montage', kicker: 'Generation batching · scripted editorial', raw: 0,
     intro: 'Grok could not give several anchors different lines in one clip, so each anchor was generated separately and the montage was assembled by a Python script.',
