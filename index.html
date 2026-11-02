@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="preload" as="image" href="img/hero-reel-1280.webp">
+<link rel="preload" as="image" href="img/hero-reel.webp">
 <style>
 :root {
   --bg: #000;
@@ -40,8 +40,8 @@ nav ul { display: flex; gap: 28px; list-style: none; margin: 0; padding: 0; }
 nav ul a { font: 500 13px/1 var(--sans); color: var(--muted); text-decoration: none; transition: color .2s; }
 nav ul a:hover, nav ul a:focus-visible { color: var(--fg); }
 .hero { position: relative; height: 100svh; min-height: 560px; overflow: hidden; display: grid; align-items: end; }
-.hero .still { position: absolute; inset: -6% 0 0; background: #000 url("img/hero-reel-1280.webp") 72% 50% / cover no-repeat; background-image: image-set(url("img/hero-reel-1280.webp") 1x, url("img/hero-reel.webp") 2x); transform: scale(1.08); will-change: transform; animation: settle 2.4s var(--ease) both; }
-@keyframes settle { from { transform: scale(1.16); filter: brightness(.4); } to { transform: scale(1.08); filter: brightness(1); } }
+.hero .still { position: absolute; inset: -6% 0 0; background: #000 url("img/hero-reel.webp") 50% 50% / cover no-repeat; transform: none; will-change: transform; animation: settle 2.4s var(--ease) both; }
+@keyframes settle { from { transform: scale(1.06); filter: brightness(.4); } to { transform: none; filter: brightness(1); } }
 .hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,.1) 50%, rgba(0,0,0,0) 70%), linear-gradient(180deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,0) 28%, rgba(0,0,0,.15) 55%, rgba(0,0,0,.92) 100%); }
 .hero .wrap { position: relative; z-index: 2; text-shadow: 0 1px 12px rgba(0,0,0,.35); width: 100%; padding-bottom: clamp(40px, 9vh, 96px); display: grid; gap: 22px; }
 .hero .label { color: #e8e8e4; }
@@ -65,7 +65,7 @@ section.block { padding-block: clamp(96px, 16vh, 180px); }
 .slate dd { margin: 6px 0 0; font: 500 16px/1.35 var(--sans); }
 .credit { margin: 22px 0 0; max-width: 62ch; color: var(--muted); font-size: 15px; }
 .feature { position: relative; height: 92svh; min-height: 520px; overflow: hidden; display: grid; align-items: end; }
-.feature .still { position: absolute; inset: 0; background: #000 url("img/hero-storm-1280.webp") 62% 40% / cover no-repeat; background-image: image-set(url("img/hero-storm-1280.webp") 1x, url("img/hero-storm.webp") 2x); transform: scale(1.06); transition: transform 1.6s var(--ease); }
+.feature .still { position: absolute; inset: 0; background: #000 url("img/hero-storm-1920.webp") 62% 40% / cover no-repeat; background-image: image-set(url("img/hero-storm-1920.webp") 1x, url("img/hero-storm.webp") 2x); transform: scale(1.06); transition: transform 1.6s var(--ease); }
 .feature.in .still { transform: scale(1); }
 .feature::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0,0,0,.7) 0%, rgba(0,0,0,.15) 55%, rgba(0,0,0,0) 100%), linear-gradient(180deg, rgba(0,0,0,.6) 0%, rgba(0,0,0,0) 25%, rgba(0,0,0,0) 60%, rgba(0,0,0,.95) 100%); }
 .feature .wrap { position: relative; z-index: 2; width: 100%; padding-bottom: clamp(40px, 9vh, 96px); display: grid; gap: 18px; justify-items: start; }
@@ -148,7 +148,7 @@ section.block { padding-block: clamp(96px, 16vh, 180px); }
   .shot { padding-block: 48px 0; }
   .feature { height: 78svh; min-height: 460px; }
   .contact { padding-block: 64px calc(48px + env(safe-area-inset-bottom, 0px)); }
-  .hero .still { position: relative; inset: auto; width: 100%; height: auto; aspect-ratio: 1920 / 1008; background: #000 url("img/hero-reel-m.webp") center / cover no-repeat; transform: none; animation: none; flex: none; }
+  .hero .still { position: relative; inset: auto; width: 100%; height: auto; aspect-ratio: 1920 / 1009; background: #000 url("img/hero-reel.webp") center / cover no-repeat; transform: none; animation: none; flex: none; }
   .hero .still::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0) 60%, rgba(0,0,0,.85) 100%); }
   .hero::after { display: none; }
   .hero .wrap { position: relative; margin-top: 28px; padding-bottom: 32px; text-shadow: none; }
@@ -279,7 +279,7 @@ const nav = document.getElementById('nav'), still = document.getElementById('sti
 function onScroll() {
   const y = scrollY;
   nav.classList.toggle('solid', y > innerHeight * .6);
-  if (!reduce && innerWidth > 760 && y < innerHeight * 1.2) still.style.transform = `translateY(${y * .25}px) scale(${1.08 + y * .00012})`;
+  if (!reduce && innerWidth > 760 && y < innerHeight * 1.2) still.style.transform = y > 0 ? `translateY(${y * .25}px)` : '';
 }
 addEventListener('scroll', onScroll, { passive: true }); onScroll();
 
