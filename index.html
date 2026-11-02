@@ -40,7 +40,7 @@ nav ul { display: flex; gap: 28px; list-style: none; margin: 0; padding: 0; }
 nav ul a { font: 500 13px/1 var(--sans); color: var(--muted); text-decoration: none; transition: color .2s; }
 nav ul a:hover, nav ul a:focus-visible { color: var(--fg); }
 .hero { position: relative; height: 100svh; min-height: 560px; overflow: hidden; display: grid; align-items: end; }
-.hero .still { position: absolute; inset: -6% 0 0; background: #000 url("img/hero-reel-1280.webp") center 45% / cover no-repeat; background-image: image-set(url("img/hero-reel-1280.webp") 1x, url("img/hero-reel.webp") 2x); transform: scale(1.08); will-change: transform; animation: settle 2.4s var(--ease) both; }
+.hero .still { position: absolute; inset: -6% 0 0; background: #000 url("img/hero-reel-1280.webp") 72% 50% / cover no-repeat; background-image: image-set(url("img/hero-reel-1280.webp") 1x, url("img/hero-reel.webp") 2x); transform: scale(1.08); will-change: transform; animation: settle 2.4s var(--ease) both; }
 @keyframes settle { from { transform: scale(1.16); filter: brightness(.4); } to { transform: scale(1.08); filter: brightness(1); } }
 .hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,.1) 50%, rgba(0,0,0,0) 70%), linear-gradient(180deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,0) 28%, rgba(0,0,0,.15) 55%, rgba(0,0,0,.92) 100%); }
 .hero .wrap { position: relative; z-index: 2; text-shadow: 0 1px 12px rgba(0,0,0,.35); width: 100%; padding-bottom: clamp(40px, 9vh, 96px); display: grid; gap: 22px; }
@@ -138,6 +138,7 @@ section.block { padding-block: clamp(96px, 16vh, 180px); }
 .rv.in { opacity: 1; transform: none; }
 .no-js .rv { opacity: 1; transform: none; }
 @media (max-width: 760px) {
+  .hero .still { background-position: 86% 50%; }
   nav ul { gap: 18px; }
   .slate { grid-template-columns: repeat(2, minmax(0,1fr)); }
   .steps li { grid-template-columns: 1fr; gap: 10px; }
