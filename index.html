@@ -95,6 +95,10 @@ section.block { padding-block: clamp(96px, 16vh, 180px); }
 .chips button[aria-pressed="true"] { color: #000; background: var(--fg); border-color: var(--fg); }
 .chips button[aria-pressed="true"] .n { color: #000; }
 .chips .all { margin-left: auto; }
+.shot-intro { margin: -6px 0 16px; max-width: 70ch; color: var(--muted); font-size: 15px; }
+.shot-notes { margin: 14px 0 0; max-width: 78ch; color: var(--muted); font-size: 14px; line-height: 1.55; border-top: 1px solid var(--line); padding-top: 14px; }
+.chips .grp { flex-basis: 100%; font: 500 11px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin: 6px 0 2px; }
+.chips .grp:first-child { margin-top: 0; }
 .note { margin: 14px 0 0; max-width: 64ch; font-size: 16px; color: #d6d6d2; min-height: 4.8em; }
 .note .what { display: block; font: 500 11px/1.3 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
 
@@ -195,9 +199,9 @@ section.block { padding-block: clamp(96px, 16vh, 180px); }
 
   <section id="vfx" aria-label="VFX pass breakdown">
     <div class="wrap vfx-intro">
-      <p class="label rv">VFX breakdown &middot; Storm of the Century &middot; LA River</p>
+      <p class="label rv">VFX breakdown &middot; Storm of the Century</p>
       <p class="statement rv" style="--d:.1s">Pass by pass. <em>Tap a pass, drag to compare.</em></p>
-      <p class="lede rv" style="--d:.2s">The river is where he decides to change everything, and pays for it with his morals. Three shots, graded by hand in Resolve.</p>
+      <p class="lede rv" style="--d:.2s">Four shots. The bus shows a generated plate finished through a scripted compositing pipeline. The LA River shots show hand grading in Resolve.</p>
     </div>
     <div id="shots"></div>
   </section>
@@ -247,28 +251,49 @@ addEventListener('scroll', onScroll, { passive: true }); onScroll();
 const sf = document.getElementById('stormFrame');
 if (sf.dataset.vimeo) sf.innerHTML = `<iframe src="https://player.vimeo.com/video/${sf.dataset.vimeo}?title=0&byline=0&portrait=0&dnt=1" allow="fullscreen; picture-in-picture" allowfullscreen title="Storm of the Century" loading="lazy"></iframe>`;
 
-// One cumulative still per Resolve node, same frame.
+// Steps: [image key, label, note, compare-against index (default: previous), group label]
 const SHOTS = [
-  { name: 'Wide', steps: [
-    ['w0', 'Raw', 'Out of Grok the frame was too crisp and hard. Every edge sharp at every depth, which is what gives AI away.'],
-    ['w1', 'Depth haze', 'Resolve’s depth-aware Cinematic Haze, tuned by hand. The background falls away, the bridge lamps bloom, and the leftover AI edges soften. It also fits the film’s tone.'],
-    ['w2', 'Silhouette', 'Relit in the grade: pulled him down to a hard silhouette against the lit bridge. He’s about to do the thing he swore he wouldn’t, so he stays a shadow.'],
-    ['w3', 'Masked color', 'Magic Mask on him. The world around him shifts colder; he doesn’t.'],
-    ['w4', 'Film print', 'A film-print look over the frame, and deflicker for the motion.']
+  { name: 'Bus explosion', kicker: 'Hero shot · generation and scripted compositing', raw: 3,
+    intro: 'A generated plate finished through a scripted Python/OpenCV compositing pipeline and assembled with Resolve’s scripting API.',
+    notes: 'Pipeline: sound effects sourced by script from Freesound (Creative Commons Zero only) and placed on the timeline · comp layers rendered by script and assembled through Resolve’s scripting API · 15 comp iterations in one day against my review notes · the fireball lands on the explosion sound and the cut moves to the next shot on impact, before the comp can be read as a comp. Stock elements: ActionVFX (licensed). Sound: Freesound, CC0.',
+    steps: [
+    ['bus-g0', 'First pass', 'A 15-second first-to-last-frame render from ChatGPT keyframes. Fire propagation was convincing; crowd motion was minimal, with most figures holding static poses.', null, 'Generate'],
+    ['bus-g1', 'Crowd direction', 'Iterated on crowd density, individual actions, and a last frame that required every figure to relocate. Remaining artifacts were an attribute-binding error (a backpack transferring between two adjacent figures) and a motion-cadence mismatch (one figure moving at a different apparent frame rate), both resolved through further prompt iteration.'],
+    ['bus-g2', 'Relighting', 'The turning point. The fire was acting as an unmotivated, omnidirectional source, lighting the whole street evenly, a common tell in generated images. Relit to physical rules: fire light with fast falloff over a few metres, the bus backlit with contrast reduced on its camera side, and a single cool practical on the wrap so it stays legible. Restoring real falloff and backlight brought back depth and separation. This frame became the first frame of the final render.'],
+    ['bus-f0', 'Raw plate', 'The selected render: 6 seconds at 720p. The model’s flame burst is soft and diffuse, with no discrete detonation.', null, 'Finish'],
+    ['bus-m0', 'Holdout matte', 'Bus-body matte tracked through the push-in, combined with an AI person matte so foreground figures stay in front of the fire.'],
+    ['bus-m1', 'Matte over plate', 'The holdout shown over the plate: everything it protects from the explosion.'],
+    ['bus-f1', 'Plate prep', 'Holdouts applied, headlights killed on the detonation frame, and impact camera shake baked into every layer. Scripted in Python/OpenCV.', 3],
+    ['bus-e0', 'Explosion element', 'Stock explosion element, conformed to the plate’s resolution and 24 fps so it is no sharper than the shot.'],
+    ['bus-f2', 'Explosion comped', 'Tracked to the bus with optical flow and timed to ignite on the model’s own burst frame. Position adjusted by hand to close the roof seam.', 6],
+    ['bus-e1', 'Debris element', 'Stock debris, isolated: larger chunks only, thrown out through the roof at detonation.'],
+    ['bus-e2', 'Glow + light passes', 'Generated from the explosion’s own energy: the light falls off from the blast point and follows the fireball’s brightness frame by frame.', 8],
+    ['bus-f3', 'Light comped', 'Glow and blast light added over the plate, with the debris layer.', 8],
+    ['bus-f4', 'Haze', 'Resolve Cinematic Haze, depth-aware, tuned by hand.'],
+    ['bus-f5', 'Final grade', 'Primary correction by hand: lift and gamma lowered for density, the same move used across the river sequence.']
   ]},
-  { name: 'Close-up', steps: [
-    ['c0', 'Raw', 'Low angle up at him, lamps behind. Grok gave a restrained performance here, which is rare: it usually over-acts.'],
-    ['c1', 'Depth haze', 'Haze on the sky and bridge, windowed off his face so the eyes stay clean.'],
-    ['c2', 'Into shadow', 'Relit in the grade: darkened and crushed until he sits in the bridge’s shadow.'],
-    ['c3', 'Cold world', 'Masked color pushes the background cold and purple, leaving him out of it.'],
-    ['c4', 'Face fill', 'Just enough fill on his face that the expression reads while he stays in shadow.'],
-    ['c5', 'Lens', 'Lens reflections off the bridge lamps, and deflicker for the motion. It cuts straight into him pulling out the phone, which Grok lit right on the first pass.']
+  { name: 'LA River · Wide', kicker: 'Hand grading in Resolve', raw: 0,
+    intro: 'The river sequence is the turning point: the character’s decision to compromise. One cumulative still per Resolve node, same frame.',
+    steps: [
+    ['w0', 'Raw', 'Generated plate with uniform sharpness at every depth and no focus falloff, a common tell of generated images.'],
+    ['w1', 'Depth haze', 'Resolve Cinematic Haze with depth scaling tuned by hand: atmospheric falloff separates the planes, the bridge practicals bloom, and residual edge artifacts soften.'],
+    ['w2', 'Silhouette', 'Primary correction relights the frame in the grade: lift, gamma and gain down to hold the subject in full silhouette against the lit bridge, supporting the story beat.'],
+    ['w3', 'Masked color', 'Magic Mask isolates the subject; saturation is raised on the environment only, increasing figure–ground separation.'],
+    ['w4', 'Film print', 'Film-print LUT at group level, and deflicker for temporal stability.']
   ]},
-  { name: 'Body', steps: [
-    ['b0', 'Raw', 'ChatGPT refused a dead body, so it went to Grok: 18 image passes. A big structured prompt built it; one-line notes finished it. Grok built the reverse of the wide and carried the lighting through. Moved the camera and rebuilt the background geography until the frame composed itself. Still too sharp.'],
-    ['b1', 'Saturation', 'Saturation pulled down across the frame, which takes the magenta cast out of the night.'],
-    ['b2', 'Haze and fog', 'Haze and fog to blend it into the river and take the edge off.'],
-    ['b3', 'Lens flare', 'Lens flare off the lamp to give it lens character, and deflicker for the motion.']
+  { name: 'LA River · Close-up', kicker: 'Hand grading in Resolve', raw: 0, steps: [
+    ['c0', 'Raw', 'Generated plate: low angle, backlit by the bridge practicals. The performance is restrained and reads naturally; generated performances more often over-act.'],
+    ['c1', 'Depth haze', 'Cinematic Haze on the sky and bridge, limited by a power window so the subject’s eyes stay clean.'],
+    ['c2', 'Into shadow', 'Primary correction matched to the wide (the same lift, gamma and gain move), placing the subject in the bridge’s shadow.'],
+    ['c3', 'Cold world', 'Masked secondary: the environment is desaturated and shifted cool toward violet; the subject is excluded.'],
+    ['c4', 'Face fill', 'Masked primary lift on the face: enough fill for the expression to read while the subject stays low key.'],
+    ['c5', 'Lens', 'Lens reflections from the bridge practicals for optical character, and deflicker for temporal stability. Cuts directly into the phone-flash shot, where the model rendered the phone’s interactive light correctly on the first pass.']
+  ]},
+  { name: 'LA River · Body', kicker: 'Hand grading in Resolve', raw: 0, steps: [
+    ['b0', 'Raw', 'ChatGPT’s safety filter declined the subject, so the frame was built in Grok over 18 image-edit passes: a structured base prompt, then single-change revisions. Grok produced a consistent reverse angle of the wide and carried the lighting through; camera position and background geography were adjusted for composition. The plate remained over-sharpened.'],
+    ['b1', 'Saturation', 'Global saturation reduced, removing the magenta cast.'],
+    ['b2', 'Haze and fog', 'Depth-weighted Cinematic Haze with light rays, blending the subject into the riverbed and reducing edge sharpness.'],
+    ['b3', 'Lens flare', 'Anamorphic lens flare keyed to the lamp for optical character, and deflicker for temporal stability.']
   ]}
 ];
 
@@ -290,7 +315,8 @@ SHOTS.forEach((shot, si) => {
   const el = document.createElement('div');
   el.className = 'shot wrap'; el.dataset.s = si;
   el.innerHTML = `<div class="in">
-    <div class="shot-head"><h2>${pad(si + 1)} &middot; ${shot.name}</h2><span class="label">${S.length} passes</span></div>
+    <div class="shot-head"><h2>${pad(si + 1)} &middot; ${shot.name}</h2><span class="label">${shot.kicker ? shot.kicker + ' &middot; ' : ''}${S.length} passes</span></div>
+    ${shot.intro ? `<p class="shot-intro">${shot.intro}</p>` : ''}
     <div class="cmp" style="--pos:50%">
       <img class="before" alt="" width="1600" height="900" sizes="${SIZES}"${si ? ' loading="lazy"' : ''}>
       <img class="after" alt="" width="1600" height="900" sizes="${SIZES}"${si ? ' loading="lazy"' : ''}>
@@ -299,10 +325,11 @@ SHOTS.forEach((shot, si) => {
       <input type="range" min="0" max="100" value="50" aria-label="${shot.name}: drag or use arrow keys to compare">
     </div>
     <div class="chips" role="group" aria-label="${shot.name} passes">
-      ${S.map((p, i) => `<button type="button" data-i="${i}"><span class="n">${pad(i + 1)}</span>${p[1]}</button>`).join('')}
+      ${S.map((p, i) => `${p[4] ? `<span class="grp">${p[4]}</span>` : ''}<button type="button" data-i="${i}"><span class="n">${pad(i + 1)}</span>${p[1]}</button>`).join('')}
       <button type="button" class="all" data-i="all">Raw vs final</button>
     </div>
-    <p class="note" aria-live="polite"></p></div>`;
+    <p class="note" aria-live="polite"></p>
+    ${shot.notes ? `<p class="shot-notes">${shot.notes}</p>` : ''}</div>`;
   host.appendChild(el);
   pio.observe(el);
   const cmp = el.querySelector('.cmp'), before = el.querySelector('.before'), after = el.querySelector('.after'),
@@ -311,7 +338,8 @@ SHOTS.forEach((shot, si) => {
   function show(key) {
     chips.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.i === String(key))));
     let a, b;
-    if (key === 'all') { a = 0; b = last; } else { b = +key; a = Math.max(0, b - 1); }
+    if (key === 'all') { a = shot.raw || 0; b = last; }
+    else { b = +key; a = (S[b][3] != null) ? S[b][3] : Math.max(0, b - 1); }
     const single = a === b;
     cmp.classList.toggle('single', single);
     setImg(after, S[b][0], `${shot.name}, ${S[b][1]}`);
