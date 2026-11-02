@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
-<title>Daniel Horgan</title>
+<title>Daniel Horgan · Creative Portfolio</title>
 <meta name="description" content="Daniel Horgan. Cinematographer and virtual production supervisor, Los Angeles.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -35,7 +35,8 @@ a { color: inherit; }
 nav { position: fixed; inset: 0 0 auto; z-index: 20; padding-top: env(safe-area-inset-top, 0px); transition: background .4s var(--ease), backdrop-filter .4s; }
 nav.solid { background: rgba(0,0,0,.72); backdrop-filter: saturate(160%) blur(18px); -webkit-backdrop-filter: saturate(160%) blur(18px); border-bottom: 1px solid var(--line); }
 nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 56px; }
-nav .mark { font: 600 15px/1 var(--sans); letter-spacing: .02em; text-decoration: none; }
+nav .mark { font: 600 15px/1.15 var(--sans); letter-spacing: .02em; text-decoration: none; }
+nav .mark span { font-weight: 400; color: var(--muted); margin-left: 6px; }
 nav ul { display: flex; gap: 28px; list-style: none; margin: 0; padding: 0; }
 nav ul a { font: 500 13px/1 var(--sans); color: var(--muted); text-decoration: none; transition: color .2s; }
 nav ul a:hover, nav ul a:focus-visible { color: var(--fg); }
@@ -142,6 +143,12 @@ section.block { padding-block: clamp(96px, 16vh, 180px); }
   .hero { display: flex; flex-direction: column; justify-content: flex-start; height: auto; min-height: 0; padding-top: 72px; }
   section.block { padding-block: 56px; }
   .reel .frame { margin-top: 28px; }
+  nav .mark span { display: block; margin: 2px 0 0; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
+  nav ul { gap: 12px; }
+  nav ul a { font-size: 12px; }
+  nav .mark { white-space: nowrap; font-size: 14px; }
+  nav .mark span { font-size: 9.5px; letter-spacing: .04em; }
+  nav .wrap { gap: 14px; }
   .stepper .pos { display: none; }
   .stepper { justify-content: space-between; }
   .stepper button { white-space: nowrap; }
@@ -160,6 +167,7 @@ section.block { padding-block: clamp(96px, 16vh, 180px); }
   .chips button { padding: 9px 12px; }
   .note { min-height: 0; }
 }
+@media (max-width: 400px) { nav ul li:nth-child(4) { display: none; } }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
   .rv { opacity: 1; transform: none; }
@@ -171,7 +179,7 @@ section.block { padding-block: clamp(96px, 16vh, 180px); }
 
 <nav id="nav">
   <div class="wrap">
-    <a class="mark" href="#top">Daniel Horgan</a>
+    <a class="mark" href="#top">Daniel Horgan <span>Creative Portfolio</span></a>
     <ul>
       <li><a href="#reel">Reel</a></li>
       <li><a href="#storm">Storm</a></li>
@@ -198,7 +206,7 @@ section.block { padding-block: clamp(96px, 16vh, 180px); }
   <section class="block reel" id="reel">
     <div class="wrap">
       <p class="purpose rv">Previous work as a cinematographer</p>
-      <p class="statement rv" style="--d:.1s">2026 cinematography reel. <em>Narrative projects, shot as director of photography.</em></p>
+      <p class="statement rv" style="--d:.1s">2026 reel.</p>
       <div class="frame" id="frame">
         <iframe src="https://player.vimeo.com/video/1241792371?title=0&amp;byline=0&amp;portrait=0&amp;dnt=1" allow="fullscreen; picture-in-picture" allowfullscreen title="Daniel Horgan cinematography reel" loading="lazy"></iframe>
       </div>
@@ -216,7 +224,7 @@ section.block { padding-block: clamp(96px, 16vh, 180px); }
       <div class="still" role="img" aria-label="Frame from Storm of the Century"></div>
       <div class="wrap">
         <p class="purpose rv">Visual language with Grok Imagine</p>
-        <p class="statement rv" style="--d:.1s">Storm of the Century. <em>Generated with Grok Imagine.</em></p>
+        <p class="statement rv" style="--d:.1s">Storm of the Century.</p>
         <button class="play rv" style="--d:.2s" type="button" data-open="1242122328" data-title="Storm of the Century"><i></i>Play film</button>
       </div>
     </div>
@@ -225,7 +233,6 @@ section.block { padding-block: clamp(96px, 16vh, 180px); }
         <div><dt class="label">Role</dt><dd>Director, compositing, color</dd></div>
         <div><dt class="label">Master</dt><dd>4K UHD</dd></div>
         <div><dt class="label">Finishing</dt><dd>Grade, relight, haze, comp</dd></div>
-        <div><dt class="label">Tools</dt><dd>ChatGPT, Grok Imagine, ElevenLabs, Resolve</dd></div>
       </dl>
       <p class="credit rv">Stills: ChatGPT and Grok. Motion: Grok Imagine. Voice: ElevenLabs. Prompt drafting and Resolve scripting: Claude. Direction, compositing decisions and color: Daniel Horgan.</p>
     </div>
@@ -233,9 +240,8 @@ section.block { padding-block: clamp(96px, 16vh, 180px); }
 
   <section id="vfx" aria-label="VFX pass breakdown">
     <div class="wrap vfx-intro">
-      <p class="label rv">VFX breakdown &middot; Storm of the Century</p>
-      <p class="statement rv" style="--d:.1s">VFX passes. <em>Tap a pass, drag to compare.</em></p>
-      <p class="lede rv" style="--d:.2s">01: Python compositing and automation. 02: screen replacement. 03: generation batching and scripted editorial. 04–06: Resolve grading workflow.</p>
+      <p class="label rv">Storm of the Century</p>
+      <p class="statement rv" style="--d:.1s">VFX breakdowns. <em>Tap a pass, drag to compare.</em></p>
     </div>
     <div id="shots"></div>
   </section>
@@ -370,7 +376,7 @@ SHOTS.forEach((shot, si) => {
   el.className = 'shot wrap'; el.dataset.s = si;
   el.innerHTML = `<div class="in">
     ${shot.purpose ? `<p class="purpose">${shot.purpose}</p>` : ''}
-    <div class="shot-head"><h2>${pad(si + 1)} &middot; ${shot.name}</h2><span class="label">${shot.kicker ? shot.kicker + ' &middot; ' : ''}${S.length} passes</span></div>
+    <div class="shot-head"><h2>${pad(si + 1)} &middot; ${shot.name}</h2><span class="label">${S.length} passes</span></div>
     ${shot.intro ? `<p class="shot-intro">${shot.intro}</p>` : ''}
     <div class="cmp" style="--pos:50%">
       <img class="before" alt="" width="1600" height="900" sizes="${SIZES}"${si ? ' loading="lazy"' : ''}>
