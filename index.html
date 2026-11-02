@@ -112,7 +112,12 @@ section.block { padding-block: clamp(96px, 16vh, 180px); }
 @keyframes nudge { 0%,100% { transform:none; } 40% { transform:translateX(5px); } 60% { transform:translateX(0); } }
 .purpose { margin: 0 0 12px; font: 600 clamp(18px, 1.9vw, 26px)/1.25 var(--sans); letter-spacing: -.005em; color: var(--accent); }
 .shot-intro { margin: -6px 0 16px; max-width: 70ch; color: var(--muted); font-size: 15px; }
-.shot-notes { margin: 14px 0 0; max-width: 78ch; color: var(--muted); font-size: 14px; line-height: 1.55; border-top: 1px solid var(--line); padding-top: 14px; }
+.shot-notes { margin: 14px 0 0; max-width: 78ch; color: var(--muted); font-size: 14px; line-height: 1.55; border-top: 1px solid var(--line); padding-top: 12px; }
+.shot-notes summary { cursor: pointer; list-style: none; display: inline-flex; align-items: center; gap: 10px; font: 500 11px/1.3 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--fg); padding: 4px 0; }
+.shot-notes summary::-webkit-details-marker { display: none; }
+.shot-notes summary::before { content: ""; width: 0; height: 0; border-left: 6px solid var(--accent); border-top: 4.5px solid transparent; border-bottom: 4.5px solid transparent; transition: transform .2s var(--ease); }
+.shot-notes[open] summary::before { transform: rotate(90deg); }
+.shot-notes p { margin: 10px 0 0; }
 .chips .grp { flex-basis: 100%; font: 500 11px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin: 6px 0 2px; }
 .chips .grp:first-child { margin-top: 0; }
 .note { margin: 14px 0 0; max-width: 64ch; font-size: 16px; color: #d6d6d2; min-height: 4.8em; }
@@ -294,7 +299,7 @@ addEventListener('scroll', onScroll, { passive: true }); onScroll();
 const SHOTS = [
   { name: 'Bus explosion', purpose: 'Scripting and automation in compositing', kicker: 'Python compositing · automation', raw: 3,
     intro: 'Grok Imagine plate. Compositing scripted in Python/OpenCV; comp timeline assembled with the Resolve scripting API.',
-    notes: 'Pipeline: sound effects sourced by script from Freesound (Creative Commons Zero only) and placed on the timeline · comp layers rendered by script and assembled through Resolve’s scripting API · 15 comp iterations in one day against my review notes · the fireball lands on the explosion sound; cut on impact. Stock elements: ActionVFX (licensed). Sound: Freesound, CC0.',
+    notes: 'Sound effects sourced by script from Freesound (Creative Commons Zero only) and placed on the timeline · comp layers rendered by script and assembled through Resolve’s scripting API · 15 comp iterations in one day against my review notes · the fireball lands on the explosion sound; cut on impact. Stock elements: ActionVFX (licensed). Sound: Freesound, CC0.',
     steps: [
     ['bus-g0', 'First pass', 'A 15-second first-to-last-frame render from ChatGPT keyframes. Fire propagation was convincing; crowd motion was minimal, with most figures holding static poses.', null, 'Generate'],
     ['bus-g1', 'Crowd direction', 'Iterated on crowd density, individual actions, and a last frame that required every figure to relocate. Remaining artifacts were an attribute-binding error (a backpack transferring between two adjacent figures) and a motion-cadence mismatch (one figure moving at a different apparent frame rate), both resolved through further prompt iteration.'],
@@ -395,7 +400,7 @@ SHOTS.forEach((shot, si) => {
       <button type="button" class="all" data-i="all">Original vs final</button>
     </div>
     <p class="note" aria-live="polite"></p>
-    ${shot.notes ? `<p class="shot-notes">${shot.notes}</p>` : ''}</div>`;
+    ${shot.notes ? `<details class="shot-notes"><summary>${shot.notesTitle || 'Pipeline and sources'}</summary><p>${shot.notes}</p></details>` : ''}</div>`;
   host.appendChild(el);
   pio.observe(el);
   const cmp = el.querySelector('.cmp'), before = el.querySelector('.before'), after = el.querySelector('.after'),
