@@ -138,7 +138,10 @@ section.block { padding-block: clamp(96px, 16vh, 180px); }
 .rv.in { opacity: 1; transform: none; }
 .no-js .rv { opacity: 1; transform: none; }
 @media (max-width: 760px) {
-  .hero .still { background-position: 86% 50%; }
+  .hero { display: block; height: auto; min-height: 100svh; }
+  .hero .still { inset: 0 0 auto; height: 58svh; background: #000 url("img/hero-reel-m.webp") 62% 50% / cover no-repeat; transform: none; animation: none; }
+  .hero::after { background: linear-gradient(180deg, rgba(0,0,0,.75) 0%, rgba(0,0,0,.25) 12%, rgba(0,0,0,0) 22%, rgba(0,0,0,0) 40%, #000 58svh, #000 100%); }
+  .hero .wrap { position: absolute; left: 0; right: 0; bottom: 0; text-shadow: none; }
   nav ul { gap: 18px; }
   .slate { grid-template-columns: repeat(2, minmax(0,1fr)); }
   .steps li { grid-template-columns: 1fr; gap: 10px; }
@@ -266,7 +269,7 @@ const nav = document.getElementById('nav'), still = document.getElementById('sti
 function onScroll() {
   const y = scrollY;
   nav.classList.toggle('solid', y > innerHeight * .6);
-  if (!reduce && y < innerHeight * 1.2) still.style.transform = `translateY(${y * .25}px) scale(${1.08 + y * .00012})`;
+  if (!reduce && innerWidth > 760 && y < innerHeight * 1.2) still.style.transform = `translateY(${y * .25}px) scale(${1.08 + y * .00012})`;
 }
 addEventListener('scroll', onScroll, { passive: true }); onScroll();
 
