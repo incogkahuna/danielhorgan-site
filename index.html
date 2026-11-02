@@ -95,6 +95,14 @@ section.block { padding-block: clamp(96px, 16vh, 180px); }
 .chips button[aria-pressed="true"] { color: #000; background: var(--fg); border-color: var(--fg); }
 .chips button[aria-pressed="true"] .n { color: #000; }
 .chips .all { margin-left: auto; }
+.stepper { display:flex; align-items:center; gap:12px; margin-top:14px; }
+.stepper button { border:1px solid var(--fg); background:var(--fg); color:#000; border-radius:999px; padding:10px 18px; font:600 14px/1 var(--sans); cursor:pointer; transition:transform .2s var(--ease), opacity .2s; }
+.stepper button.prev { background:transparent; color:var(--fg); border-color:var(--line); }
+.stepper button:disabled { opacity:.3; cursor:default; }
+.stepper button:not(:disabled):hover { transform:scale(1.04); }
+.stepper .pos { flex:1; text-align:center; font:500 11px/1.3 var(--mono); letter-spacing:.12em; text-transform:uppercase; color:var(--muted); }
+.stepper .next { animation: nudge 2.4s var(--ease) 1.2s 2; }
+@keyframes nudge { 0%,100% { transform:none; } 40% { transform:translateX(5px); } 60% { transform:translateX(0); } }
 .shot-intro { margin: -6px 0 16px; max-width: 70ch; color: var(--muted); font-size: 15px; }
 .shot-notes { margin: 14px 0 0; max-width: 78ch; color: var(--muted); font-size: 14px; line-height: 1.55; border-top: 1px solid var(--line); padding-top: 14px; }
 .chips .grp { flex-basis: 100%; font: 500 11px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin: 6px 0 2px; }
@@ -201,7 +209,7 @@ section.block { padding-block: clamp(96px, 16vh, 180px); }
     <div class="wrap vfx-intro">
       <p class="label rv">VFX breakdown &middot; Storm of the Century</p>
       <p class="statement rv" style="--d:.1s">VFX passes. <em>Tap a pass, drag to compare.</em></p>
-      <p class="lede rv" style="--d:.2s">01: Python compositing and automation. 02–04: Resolve grading workflow.</p>
+      <p class="lede rv" style="--d:.2s">01: Python compositing and automation. 02–03: screen replacement. 04: generation batching and scripted editorial. 05–07: Resolve grading workflow.</p>
     </div>
     <div id="shots"></div>
   </section>
@@ -273,6 +281,36 @@ const SHOTS = [
     ['bus-f4', 'Haze', 'Resolve Cinematic Haze, depth-aware, tuned by hand.'],
     ['bus-f5', 'Final grade', 'Primary correction by hand: lift and gamma lowered for density, the same move used across the river sequence.']
   ]},
+  { name: 'Laptop screen replacement · Viral page', kicker: 'Python compositing · screen replacement', raw: 0,
+    intro: 'Generated plate with placeholder analytics on the laptop; replaced with a generated watch page playing the film’s phone clip. Compositing scripted in Python/OpenCV.',
+    steps: [
+    ['scr1-0', 'Plate', 'Generated over-the-shoulder plate with placeholder analytics on the display.'],
+    ['scr1-1', 'Corner pin + holdout', 'Fixed four-point corner pin on the display (locked-off shot, so no per-frame track) and a static soft-edged forearm holdout.'],
+    ['scr1-2', 'Insert', 'Watch-page still generated in ChatGPT; the phone clip (Grok) is frame-matched into the player and the player controls are re-keyed over it.'],
+    ['scr1-3', 'Pinned, unmatched', 'Insert warped to the quad and hard-composited, with no holdout, softness or grade. Reads as pasted on.', 1],
+    ['scr1-4', 'Final', 'Forearm holdout, 0.55 px softness for LCD diffusion, gain ×0.80 with lifted blacks, cooler balance, 18% bloom off the bright UI, and grain.', 3]
+  ]},
+  { name: 'Laptop screen replacement · 13 views', kicker: 'Python compositing · screen replacement', raw: 0,
+    intro: 'Same camera and screen geometry as the viral page. The comp script was reused with new inputs: a failing-channel page and the river self-record clip.',
+    steps: [
+    ['scr2-0', 'Plate', 'Generated plate, same camera and display as the viral shot, with a red analytics dashboard.'],
+    ['scr2-1', 'Corner pin + holdout', 'Same four-point pin and forearm holdout, reused from the first shot.'],
+    ['scr2-2', 'Insert', 'Failing-channel watch page (an in-place edit of the viral page) with the river self-record clip frame-matched into the player.'],
+    ['scr2-3', 'Pinned, unmatched', 'Hard warp with no holdout, softness or grade.', 1],
+    ['scr2-4', 'Final', 'Same matching as the first shot (holdout, softness, gain, balance, bloom, grain), plus a primary balance adjustment in Resolve.', 3]
+  ]},
+  { name: 'News anchor montage', kicker: 'Generation batching · scripted editorial', raw: 0,
+    intro: 'Grok could not give several anchors different lines in one clip, so each anchor was generated separately and the montage was assembled by a Python script.',
+    steps: [
+    ['anc-0', 'Source', 'One Grok Imagine text-to-video clip, 752×416, used as delivered.'],
+    ['anc-gen', 'Prompts', 'Seven attempts at several anchors speaking different lines in one clip failed. Each anchor was then generated separately: ten independent text-to-video prompts on one template, each with its own setup line and a shared closing line, submitted in under two minutes across ten parallel sessions. All ten were first takes.'],
+    ['anc-1', 'Sources', 'Ten generated anchors, one per fictional station; nine are used in the wall.'],
+    ['anc-2', 'Generated timeline', 'FCPXML written by a Python script: nine stacked lanes, a three-stage grid (1 → 2×2 → 3×3), eased transform keyframes baked every 1–2 frames, and −7 dB per lane so the voices build as layers enter.'],
+    ['anc-3', 'Stage B', 'Imported timeline, frame 70: the hero anchor settles into the 2×2 as the next layers key in.'],
+    ['anc-4', 'Stage B → C', 'Frame 100: the wall rescales to 3×3 while new layers ease into their cells. Each layer’s in-point was set from speech recognition so all nine anchors land on the closing line on the same frame.'],
+    ['anc-5', 'Look', 'Before and after the film-wide print LUT (a script-generated 33-point 3D LUT on the color group).'],
+    ['anc-6', 'In the cut', 'The finished 3×3 wall, cut straight into the phone-screen comp.']
+  ]},
   { name: 'LA River · Wide', kicker: 'Resolve grading workflow', raw: 0,
     intro: 'One cumulative still per Resolve node, same frame.',
     steps: [
@@ -325,6 +363,11 @@ SHOTS.forEach((shot, si) => {
       <span class="tag l"></span><span class="tag r"><b></b><span></span></span>
       <input type="range" min="0" max="100" value="50" aria-label="${shot.name}: drag or use arrow keys to compare">
     </div>
+    <div class="stepper">
+      <button type="button" class="prev" aria-label="Previous pass">&#8249; Prev</button>
+      <span class="pos"></span>
+      <button type="button" class="next" aria-label="Next pass">Next pass &#8250;</button>
+    </div>
     <div class="chips" role="group" aria-label="${shot.name} passes">
       ${S.map((p, i) => `${p[4] ? `<span class="grp">${p[4]}</span>` : ''}<button type="button" data-i="${i}"><span class="n">${pad(i + 1)}</span>${p[1]}</button>`).join('')}
       <button type="button" class="all" data-i="all">Raw vs final</button>
@@ -335,7 +378,8 @@ SHOTS.forEach((shot, si) => {
   pio.observe(el);
   const cmp = el.querySelector('.cmp'), before = el.querySelector('.before'), after = el.querySelector('.after'),
         tagL = el.querySelector('.tag.l'), tagRn = el.querySelector('.tag.r b'), tagRh = el.querySelector('.tag.r span'),
-        range = el.querySelector('input'), note = el.querySelector('.note'), chips = [...el.querySelectorAll('.chips button')];
+        range = el.querySelector('input'), note = el.querySelector('.note'), chips = [...el.querySelectorAll('.chips button')], posEl = el.querySelector('.pos'), prevB = el.querySelector('.prev'), nextB = el.querySelector('.next');
+  let cur = 'all';
   function show(key) {
     chips.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.i === String(key))));
     let a, b;
@@ -351,11 +395,18 @@ SHOTS.forEach((shot, si) => {
     if (key === 'all') note.innerHTML = `<span class="what">Raw vs final</span>Drag across: everything the finish changed, in one move.`;
     else note.innerHTML = `<span class="what">${pad(b + 1)} &middot; ${S[b][1]}${single ? '' : ' &middot; vs ' + S[a][1]}</span>${S[b][2]}`;
     setPos(50);
+    cur = key;
+    posEl.textContent = key === 'all' ? `Raw vs final · ${S.length} passes to step through` : `Pass ${b + 1} of ${S.length}`;
+    prevB.disabled = key === 'all';
+    nextB.textContent = key === 'all' ? 'Step through passes \u203A' : (b === last ? 'Back to raw vs final \u203A' : 'Next pass \u203A');
   }
   function setPos(v) { cmp.style.setProperty('--pos', v + '%'); range.value = v; }
   range.addEventListener('input', () => setPos(range.value));
   chips.forEach(b => b.addEventListener('click', () => show(b.dataset.i === 'all' ? 'all' : +b.dataset.i)));
-  show(1);
+  nextB.addEventListener('click', () => { if (cur === 'all') show(0); else if (cur >= last) show('all'); else show(cur + 1); });
+  prevB.addEventListener('click', () => { if (cur === 'all') return; if (cur <= 0) show('all'); else show(cur - 1); });
+  el.addEventListener('keydown', e => { if (e.target.tagName === 'INPUT') return; if (e.key === 'ArrowRight') nextB.click(); if (e.key === 'ArrowLeft') prevB.click(); });
+  show('all');
 });
 preload(SHOTS[0]);
 
