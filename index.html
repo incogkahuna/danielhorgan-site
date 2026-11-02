@@ -160,7 +160,7 @@ section.block { padding-block: clamp(96px, 16vh, 180px); }
     <h1 class="rv" style="--d:.1s"><span>Daniel</span><span>Horgan</span></h1>
     <div class="sub rv" style="--d:.25s">
       <button class="play" type="button" data-open><i></i>Play reel</button>
-      <p>Images that hold up in camera, whether they come off a lens or out of a model.</p>
+      <p>Cinematography, color grading and VFX.</p>
     </div>
   </div>
 </header>
@@ -169,14 +169,14 @@ section.block { padding-block: clamp(96px, 16vh, 180px); }
   <section class="block reel" id="reel">
     <div class="wrap">
       <p class="label rv">Cinematography reel &middot; 2026</p>
-      <p class="statement rv" style="--d:.1s">Ten years behind the camera. <em>One minute and forty-six seconds.</em></p>
+      <p class="statement rv" style="--d:.1s">2026 cinematography reel. <em>Narrative projects, shot as director of photography.</em></p>
       <div class="frame" id="frame">
         <iframe src="https://player.vimeo.com/video/1241792371?title=0&amp;byline=0&amp;portrait=0&amp;dnt=1" allow="fullscreen; picture-in-picture" allowfullscreen title="Daniel Horgan cinematography reel" loading="lazy"></iframe>
       </div>
       <dl class="slate rv">
         <div><dt class="label">Runtime</dt><dd>01:46</dd></div>
-        <div><dt class="label">Role</dt><dd>DP, camera, lighting, color</dd></div>
-        <div><dt class="label">Formats</dt><dd>Narrative, commercial, LED volume</dd></div>
+        <div><dt class="label">Role</dt><dd>Director of photography</dd></div>
+        <div><dt class="label">Formats</dt><dd>Narrative</dd></div>
         <div><dt class="label">Tools</dt><dd>Resolve, Premiere, Unreal</dd></div>
       </dl>
     </div>
@@ -185,23 +185,23 @@ section.block { padding-block: clamp(96px, 16vh, 180px); }
   <section class="block storm" id="storm" style="padding-top:0">
     <div class="wrap">
       <p class="label rv">AI short &middot; 2026</p>
-      <p class="statement rv" style="--d:.1s">Storm of the Century. <em>Generated, then finished like a real shot.</em></p>
+      <p class="statement rv" style="--d:.1s">Storm of the Century. <em>Generated with Grok Imagine.</em></p>
       <div class="frame rv" id="stormFrame" data-vimeo="1242122328" role="img" aria-label="Frame from Storm of the Century"></div>
       <dl class="slate rv">
-        <div><dt class="label">Role</dt><dd>Director, colorist, finisher</dd></div>
+        <div><dt class="label">Role</dt><dd>Director, compositing, color</dd></div>
         <div><dt class="label">Master</dt><dd>4K UHD</dd></div>
         <div><dt class="label">Finishing</dt><dd>Grade, relight, haze, comp</dd></div>
         <div><dt class="label">Tools</dt><dd>ChatGPT, Grok Imagine, ElevenLabs, Resolve</dd></div>
       </dl>
-      <p class="credit rv">Stills from ChatGPT and Grok, motion from Grok Imagine, one voice from ElevenLabs. Prompts drafted with Claude, and some Resolve steps scripted with it. Direction, every approval and the grade are mine.</p>
+      <p class="credit rv">Stills: ChatGPT and Grok. Motion: Grok Imagine. Voice: ElevenLabs. Prompt drafting and Resolve scripting: Claude. Direction, compositing decisions and color: Daniel Horgan.</p>
     </div>
   </section>
 
   <section id="vfx" aria-label="VFX pass breakdown">
     <div class="wrap vfx-intro">
       <p class="label rv">VFX breakdown &middot; Storm of the Century</p>
-      <p class="statement rv" style="--d:.1s">Pass by pass. <em>Tap a pass, drag to compare.</em></p>
-      <p class="lede rv" style="--d:.2s">Four shots. The bus shows a generated plate finished through a scripted compositing pipeline. The LA River shots show hand grading in Resolve.</p>
+      <p class="statement rv" style="--d:.1s">VFX passes. <em>Tap a pass, drag to compare.</em></p>
+      <p class="lede rv" style="--d:.2s">01: Python compositing and automation. 02–04: Resolve grading workflow.</p>
     </div>
     <div id="shots"></div>
   </section>
@@ -209,14 +209,15 @@ section.block { padding-block: clamp(96px, 16vh, 180px); }
   <section class="block" id="method">
     <div class="wrap">
       <p class="label rv">Method</p>
-      <p class="statement rv" style="--d:.1s">How I note a shot. <em>Specific enough that someone else can fix it.</em></p>
+      <p class="statement rv" style="--d:.1s">Shot evaluation. <em>Note format.</em></p>
       <ol class="steps">
         <li class="rv"><h3>Observation</h3><p>What happened, in plain visual language.</p></li>
         <li class="rv"><h3>Where</h3><p>Timestamp or frame range.</p></li>
-        <li class="rv"><h3>Dimension</h3><p>Motion, timing, anatomy, physics, transition, VFX integration or prompt adherence.</p></li>
-        <li class="rv"><h3>Severity</h3><p>Blocking, which breaks the shot, or minor, which is noticeable but usable.</p></li>
-        <li class="rv"><h3>Fix or verdict</h3><p>What needs to change, or pass/fail with one reason.</p></li>
+        <li class="rv"><h3>Dimension</h3><p>Motion, timing, anatomy, physics, temporal consistency, lighting, VFX integration or prompt adherence.</p></li>
+        <li class="rv"><h3>Severity</h3><p>Blocking, major or minor.</p></li>
+        <li class="rv"><h3>Fix or verdict</h3><p>The change required, or pass/fail with one reason.</p></li>
       </ol>
+      <p class="credit rv"><strong>Example.</strong> Bus explosion, first pass, 0:04–0:11. Observation: crowd holds static poses while the fire spreads. Dimension: motion, prompt adherence. Severity: blocking. Fix: make crowd motion the priority in the prompt; pin a last frame in which every figure has moved.</p>
     </div>
   </section>
 
@@ -253,13 +254,13 @@ if (sf.dataset.vimeo) sf.innerHTML = `<iframe src="https://player.vimeo.com/vide
 
 // Steps: [image key, label, note, compare-against index (default: previous), group label]
 const SHOTS = [
-  { name: 'Bus explosion', kicker: 'Hero shot · generation and scripted compositing', raw: 3,
-    intro: 'A generated plate finished through a scripted Python/OpenCV compositing pipeline and assembled with Resolve’s scripting API.',
-    notes: 'Pipeline: sound effects sourced by script from Freesound (Creative Commons Zero only) and placed on the timeline · comp layers rendered by script and assembled through Resolve’s scripting API · 15 comp iterations in one day against my review notes · the fireball lands on the explosion sound and the cut moves to the next shot on impact, before the comp can be read as a comp. Stock elements: ActionVFX (licensed). Sound: Freesound, CC0.',
+  { name: 'Bus explosion', kicker: 'Python compositing · automation', raw: 3,
+    intro: 'Grok Imagine plate. Compositing scripted in Python/OpenCV; comp timeline assembled with the Resolve scripting API.',
+    notes: 'Pipeline: sound effects sourced by script from Freesound (Creative Commons Zero only) and placed on the timeline · comp layers rendered by script and assembled through Resolve’s scripting API · 15 comp iterations in one day against my review notes · the fireball lands on the explosion sound; cut on impact. Stock elements: ActionVFX (licensed). Sound: Freesound, CC0.',
     steps: [
     ['bus-g0', 'First pass', 'A 15-second first-to-last-frame render from ChatGPT keyframes. Fire propagation was convincing; crowd motion was minimal, with most figures holding static poses.', null, 'Generate'],
     ['bus-g1', 'Crowd direction', 'Iterated on crowd density, individual actions, and a last frame that required every figure to relocate. Remaining artifacts were an attribute-binding error (a backpack transferring between two adjacent figures) and a motion-cadence mismatch (one figure moving at a different apparent frame rate), both resolved through further prompt iteration.'],
-    ['bus-g2', 'Relighting', 'The turning point. The fire was acting as an unmotivated, omnidirectional source, lighting the whole street evenly, a common tell in generated images. Relit to physical rules: fire light with fast falloff over a few metres, the bus backlit with contrast reduced on its camera side, and a single cool practical on the wrap so it stays legible. Restoring real falloff and backlight brought back depth and separation. Shown: the first frame of the final render, generated from the relit keyframe.'],
+    ['bus-g2', 'Relighting', 'The fire was acting as an unmotivated, omnidirectional source, lighting the whole street evenly, a common tell in generated images. Relit to physical rules: fire light with fast falloff over a few metres, the bus backlit with contrast reduced on its camera side, and a single cool practical on the wrap so it stays legible. Restoring real falloff and backlight brought back depth and separation. Shown: the first frame of the final render, generated from the relit keyframe.'],
     ['bus-f0', 'Raw plate', 'The selected render: 6 seconds at 720p. The model’s flame burst is soft and diffuse, with no discrete detonation.', null, 'Finish'],
     ['bus-m0', 'Holdout matte', 'Bus-body holdout tracked through the push-in. An AI person matte (baked into the plate) keeps foreground figures in front of the fire.'],
     ['bus-m1', 'Matte over plate', 'The holdout shown over the plate: everything it protects from the explosion.'],
@@ -272,8 +273,8 @@ const SHOTS = [
     ['bus-f4', 'Haze', 'Resolve Cinematic Haze, depth-aware, tuned by hand.'],
     ['bus-f5', 'Final grade', 'Primary correction by hand: lift and gamma lowered for density, the same move used across the river sequence.']
   ]},
-  { name: 'LA River · Wide', kicker: 'Hand grading in Resolve', raw: 0,
-    intro: 'The river sequence is the turning point: the character’s decision to compromise. One cumulative still per Resolve node, same frame.',
+  { name: 'LA River · Wide', kicker: 'Resolve grading workflow', raw: 0,
+    intro: 'One cumulative still per Resolve node, same frame.',
     steps: [
     ['w0', 'Raw', 'Generated plate with uniform sharpness at every depth and no focus falloff, a common tell of generated images.'],
     ['w1', 'Depth haze', 'Resolve Cinematic Haze with depth scaling tuned by hand: atmospheric falloff separates the planes, the bridge practicals bloom, and residual edge artifacts soften.'],
@@ -281,7 +282,7 @@ const SHOTS = [
     ['w3', 'Masked color', 'Magic Mask isolates the subject; saturation is raised on the environment only, increasing figure–ground separation.'],
     ['w4', 'Film print', 'Film-print LUT at group level, and deflicker for temporal stability.']
   ]},
-  { name: 'LA River · Close-up', kicker: 'Hand grading in Resolve', raw: 0, steps: [
+  { name: 'LA River · Close-up', kicker: 'Resolve grading workflow', raw: 0, steps: [
     ['c0', 'Raw', 'Generated plate: low angle, backlit by the bridge practicals. The performance is restrained and reads naturally; generated performances more often over-act.'],
     ['c1', 'Depth haze', 'Cinematic Haze on the sky and bridge, limited by a power window so the subject’s eyes stay clean.'],
     ['c2', 'Into shadow', 'Primary correction matched to the wide (the same lift, gamma and gain move), placing the subject in the bridge’s shadow.'],
@@ -289,7 +290,7 @@ const SHOTS = [
     ['c4', 'Face fill', 'Masked primary lift on the face: enough fill for the expression to read while the subject stays low key.'],
     ['c5', 'Lens', 'Lens reflections from the bridge practicals for optical character, and deflicker for temporal stability. Cuts directly into the phone-flash shot, where the model rendered the phone’s interactive light correctly on the first pass.']
   ]},
-  { name: 'LA River · Body', kicker: 'Hand grading in Resolve', raw: 0, steps: [
+  { name: 'LA River · Body', kicker: 'Resolve grading workflow', raw: 0, steps: [
     ['b0', 'Raw', 'ChatGPT’s safety filter declined the subject, so the frame was built in Grok over 18 image-edit passes: a structured base prompt, then single-change revisions. Grok produced a consistent reverse angle of the wide and carried the lighting through; camera position and background geography were adjusted for composition. The plate remained over-sharpened.'],
     ['b1', 'Saturation', 'Global saturation reduced, removing the magenta cast.'],
     ['b2', 'Haze and fog', 'Depth-weighted Cinematic Haze with light rays, blending the subject into the riverbed and reducing edge sharpness.'],
