@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="preconnect" href="https://i.vimeocdn.com">
+<link rel="preload" as="image" href="img/hero-reel-1280.webp">
 <style>
 :root {
   --bg: #000;
@@ -40,10 +40,11 @@ nav ul { display: flex; gap: 28px; list-style: none; margin: 0; padding: 0; }
 nav ul a { font: 500 13px/1 var(--sans); color: var(--muted); text-decoration: none; transition: color .2s; }
 nav ul a:hover, nav ul a:focus-visible { color: var(--fg); }
 .hero { position: relative; height: 100svh; min-height: 560px; overflow: hidden; display: grid; align-items: end; }
-.hero .still { position: absolute; inset: -6% 0 0; background: #000 url("https://i.vimeocdn.com/video/2220012503-be8158fb27a92c6536be7cc6b592ecd9ae68cd407c027d395ac4c82491e6f17c-d_1920x1080?region=us") center 30% / cover no-repeat; transform: scale(1.08); will-change: transform; animation: settle 2.4s var(--ease) both; }
+.hero .still { position: absolute; inset: -6% 0 0; background: #000 url("img/hero-reel-1280.webp") center 45% / cover no-repeat; background-image: image-set(url("img/hero-reel-1280.webp") 1x, url("img/hero-reel.webp") 2x); transform: scale(1.08); will-change: transform; animation: settle 2.4s var(--ease) both; }
 @keyframes settle { from { transform: scale(1.16); filter: brightness(.4); } to { transform: scale(1.08); filter: brightness(1); } }
-.hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,0) 28%, rgba(0,0,0,.15) 55%, rgba(0,0,0,.92) 100%); }
-.hero .wrap { position: relative; z-index: 2; width: 100%; padding-bottom: clamp(40px, 9vh, 96px); display: grid; gap: 22px; }
+.hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,.1) 50%, rgba(0,0,0,0) 70%), linear-gradient(180deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,0) 28%, rgba(0,0,0,.15) 55%, rgba(0,0,0,.92) 100%); }
+.hero .wrap { position: relative; z-index: 2; text-shadow: 0 1px 12px rgba(0,0,0,.35); width: 100%; padding-bottom: clamp(40px, 9vh, 96px); display: grid; gap: 22px; }
+.hero .label { color: #e8e8e4; }
 .hero h1 { margin: 0; font: 700 clamp(52px, 11vw, 168px)/.86 var(--sans); letter-spacing: -.045em; }
 .hero h1 span { display: block; }
 .hero .sub { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 28px; }
@@ -63,8 +64,13 @@ section.block { padding-block: clamp(96px, 16vh, 180px); }
 .slate div { padding: 16px 16px 0 0; min-width: 0; }
 .slate dd { margin: 6px 0 0; font: 500 16px/1.35 var(--sans); }
 .credit { margin: 22px 0 0; max-width: 62ch; color: var(--muted); font-size: 15px; }
-.storm .frame { position: relative; margin-top: 48px; aspect-ratio: 16/9; width: 100%; background: #000 url("img/w4.webp") center / cover no-repeat; border-radius: 6px; overflow: hidden; }
-.storm iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.feature { position: relative; height: 92svh; min-height: 520px; overflow: hidden; display: grid; align-items: end; }
+.feature .still { position: absolute; inset: 0; background: #000 url("img/hero-storm-1280.webp") 62% 40% / cover no-repeat; background-image: image-set(url("img/hero-storm-1280.webp") 1x, url("img/hero-storm.webp") 2x); transform: scale(1.06); transition: transform 1.6s var(--ease); }
+.feature.in .still { transform: scale(1); }
+.feature::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0,0,0,.7) 0%, rgba(0,0,0,.15) 55%, rgba(0,0,0,0) 100%), linear-gradient(180deg, rgba(0,0,0,.6) 0%, rgba(0,0,0,0) 25%, rgba(0,0,0,0) 60%, rgba(0,0,0,.95) 100%); }
+.feature .wrap { position: relative; z-index: 2; width: 100%; padding-bottom: clamp(40px, 9vh, 96px); display: grid; gap: 18px; justify-items: start; }
+.feature .statement { margin: 0; }
+.storm .after-feature { padding-top: 8px; }
 
 /* VFX breakdown: tap a step, drag the split */
 .vfx-intro { padding-top: clamp(96px, 16vh, 180px); }
@@ -190,11 +196,16 @@ section.block { padding-block: clamp(96px, 16vh, 180px); }
     </div>
   </section>
 
-  <section class="block storm" id="storm" style="padding-top:0">
-    <div class="wrap">
-      <p class="label rv">AI short &middot; 2026</p>
-      <p class="statement rv" style="--d:.1s">Storm of the Century. <em>Generated with Grok Imagine.</em></p>
-      <div class="frame rv" id="stormFrame" data-vimeo="1242122328" role="img" aria-label="Frame from Storm of the Century"></div>
+  <section class="storm" id="storm">
+    <div class="feature" id="stormFeature">
+      <div class="still" role="img" aria-label="Frame from Storm of the Century"></div>
+      <div class="wrap">
+        <p class="label rv">AI short &middot; 2026</p>
+        <p class="statement rv" style="--d:.1s">Storm of the Century. <em>Generated with Grok Imagine.</em></p>
+        <button class="play rv" style="--d:.2s" type="button" data-open="1242122328" data-title="Storm of the Century"><i></i>Play film</button>
+      </div>
+    </div>
+    <div class="wrap after-feature">
       <dl class="slate rv">
         <div><dt class="label">Role</dt><dd>Director, compositing, color</dd></div>
         <div><dt class="label">Master</dt><dd>4K UHD</dd></div>
@@ -239,7 +250,7 @@ section.block { padding-block: clamp(96px, 16vh, 180px); }
   </section>
 </main>
 
-<div class="lb" id="lb" aria-hidden="true" role="dialog" aria-label="Reel player">
+<div class="lb" id="lb" aria-hidden="true" role="dialog" aria-label="Video player">
   <button class="x" type="button" id="close" aria-label="Close">&times;</button>
   <div class="box" id="box"></div>
 </div>
@@ -257,8 +268,6 @@ function onScroll() {
   if (!reduce && y < innerHeight * 1.2) still.style.transform = `translateY(${y * .25}px) scale(${1.08 + y * .00012})`;
 }
 addEventListener('scroll', onScroll, { passive: true }); onScroll();
-const sf = document.getElementById('stormFrame');
-if (sf.dataset.vimeo) sf.innerHTML = `<iframe src="https://player.vimeo.com/video/${sf.dataset.vimeo}?title=0&byline=0&portrait=0&dnt=1" allow="fullscreen; picture-in-picture" allowfullscreen title="Storm of the Century" loading="lazy"></iframe>`;
 
 // Steps: [image key, label, note, compare-against index (default: previous), group label]
 const SHOTS = [
@@ -401,11 +410,12 @@ SHOTS.forEach((shot, si) => {
 });
 preload(SHOTS[0]);
 
-document.querySelectorAll('.rv, #frame').forEach(el => io.observe(el));
+document.querySelectorAll('.rv, #frame, #stormFeature').forEach(el => io.observe(el));
 
 const lb = document.getElementById('lb'), box = document.getElementById('box');
-function open() {
-  box.innerHTML = '<iframe src="https://player.vimeo.com/video/1241792371?autoplay=1&title=0&byline=0&portrait=0&dnt=1" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="Daniel Horgan cinematography reel"></iframe>';
+function open(e) {
+  const t = e.currentTarget, id = t.dataset.open || '1241792371', title = t.dataset.title || 'Daniel Horgan cinematography reel';
+  box.innerHTML = `<iframe src="https://player.vimeo.com/video/${id}?autoplay=1&title=0&byline=0&portrait=0&dnt=1" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="${title}"></iframe>`;
   lb.classList.add('open'); lb.setAttribute('aria-hidden', 'false'); document.getElementById('close').focus();
 }
 function close() { lb.classList.remove('open'); lb.setAttribute('aria-hidden', 'true'); setTimeout(() => box.innerHTML = '', 350); }
