@@ -375,7 +375,7 @@ SHOTS.forEach((shot, si) => {
     </div>
     <div class="chips" role="group" aria-label="${shot.name} passes">
       ${S.map((p, i) => `${p[4] ? `<span class="grp">${p[4]}</span>` : ''}<button type="button" data-i="${i}"><span class="n">${pad(i + 1)}</span>${p[1]}</button>`).join('')}
-      <button type="button" class="all" data-i="all">Raw vs final</button>
+      <button type="button" class="all" data-i="all">Original vs final</button>
     </div>
     <p class="note" aria-live="polite"></p>
     ${shot.notes ? `<p class="shot-notes">${shot.notes}</p>` : ''}</div>`;
@@ -394,16 +394,16 @@ SHOTS.forEach((shot, si) => {
     cmp.classList.toggle('single', single);
     setImg(after, S[b][0], `${shot.name}, ${S[b][1]}`);
     setImg(before, S[a][0], `${shot.name}, ${S[a][1]}`);
-    tagL.textContent = single ? '' : S[a][1];
+    tagL.textContent = single ? '' : (key === 'all' ? 'Original' : S[a][1]);
     tagRn.textContent = key === 'all' ? 'A/B' : pad(b + 1);
-    tagRh.textContent = S[b][1];
-    if (key === 'all') note.innerHTML = `<span class="what">Raw vs final</span>Drag across: everything the finish changed, in one move.`;
+    tagRh.textContent = key === 'all' ? 'Final' : S[b][1];
+    if (key === 'all') note.innerHTML = `<span class="what">Original vs final</span>Drag across: the unedited original against the finished frame.`;
     else note.innerHTML = `<span class="what">${pad(b + 1)} &middot; ${S[b][1]}${single ? '' : ' &middot; vs ' + S[a][1]}</span>${S[b][2]}`;
     setPos(50);
     cur = key;
-    posEl.textContent = key === 'all' ? `Raw vs final · ${S.length} passes to step through` : `Pass ${b + 1} of ${S.length}`;
+    posEl.textContent = key === 'all' ? `Original vs final · ${S.length} passes to step through` : `Pass ${b + 1} of ${S.length}`;
     prevB.disabled = key === 'all';
-    nextB.textContent = key === 'all' ? 'Step through passes \u203A' : (b === last ? 'Back to raw vs final \u203A' : 'Next pass \u203A');
+    nextB.textContent = key === 'all' ? 'Step through passes \u203A' : (b === last ? 'Back to original vs final \u203A' : 'Next pass \u203A');
   }
   function setPos(v) { cmp.style.setProperty('--pos', v + '%'); range.value = v; }
   range.addEventListener('input', () => setPos(range.value));
